@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-FIT 분석 요인 평가결과 (Pretendard 폰트 적용)</title>
+
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <style>
+        /* 기본 폰트 및 배경 설정 */
+        body {
+            /* ▼▼▼ [수정] Pretendard 폰트 적용 ▼▼▼ */
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* 차트 전체 컨테이너 */
+        .chart-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px
+ 12px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* 차트 제목 */
+        .chart-title {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* 차트 부제목 (Base 정보) */
+        .chart-subtitle {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            margin-bottom: 40px;
+        }
+
+        /* 차트 그리드 레이아웃 */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 2.5fr 4fr; /* [대분류] [소분류] [막대그래프] 컬럼 비율 */
+            align-items: center;
+            gap: 16px 10px; /* 행과 열 사이의 간격 */
+        }
+
+        /* 대분류 라벨 ("개인요인" 등) */
+        .category-label {
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            text-align: center;
+            padding: 10px;
+            font-weight: 500;
+            align-self: stretch; /* 라벨이 행 높이를 꽉 채우도록 설정 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.95em;
+        }
+        
+        /* grid-row를 이용해 여러 행을 병합하는 클래스 */
+        .span-3 { grid-row: span 3; }
+        .span-4 { grid-row: span 4; }
+        
+        /* 소분류 라벨 ("직무 적합성" 등) */
+        .factor-label {
+            text-align: right;
+            padding-right: 10px;
+            color: #333;
+        }
+
+        /* 막대그래프를 감싸는 영역 */
+        .bar-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 실제 막대그래프 바 */
+        .bar {
+            height: 22px;
+            /* calc() 함수와 CSS 변수(--score)를 이용해 너비 계산 */
+            width: calc(var(--score) / 5 * 100%);
+            border-radius: 4px;
+            animation: grow 0.8s ease-out forwards; /* 막대가 자라나는 애니메이션 */
+        }
+
+        /* 막대그래프 값 라벨 */
+        .bar-value {
+            margin-left: 8px;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        /* 카테고리별 막대 색상 */
+        .bar.personal   { background-color: #2a5a8c; }
+        .bar.relations  { background-color: #8bc34a; }
+        .bar.organization { background-color: #2a5a8c; }
+        .bar.outcome    { background-color: #8bc34a; }
+        
+        /* 막대가 자라나는 애니메이션 효과 */
+        @keyframes grow {
+            from { width: 0; }
+        }
+
+        /* ▼▼▼ [추가] 모바일 반응형 디자인 ▼▼▼ */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* 모바일에서는 여백 줄이기 */
+            }
+            .chart-container {
+                padding: 20px 15px;
+            }
+            .chart-title {
+                font-size: 1.2em;
+            }
+            .chart-subtitle {
+                font-size: 0.8em;
+            }
+            .chart-grid {
+                /* 모바일에서는 2단 그리드로 변경 */
+                grid-template-columns: 80px 1fr; 
+                gap: 12px 10px;
+            }
+            .factor-label {
+                /* 소분류 라벨을 막대 위로 올리기 위해 grid 속성 변경 */
+                grid-column: 2;
+                text-align: left;
+                padding-right: 0;
+                font-size: 0.9em;
+                margin-bottom: -8px; /* 막대와 간격 조절 */
+            }
+            .bar-wrapper {
+                grid-column: 2;
+            }
+            .category-label {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chart-container">
+        <h2 class="chart-title">[그림1] 직장적합도(K-FIT) 분석 요인 평가결과</h2>
+        <p class="chart-subtitle">(Base: 전국의 만 20~59세 직장인 2,073명, 단위: 점, 5점 만점)</p>
+
+        <div class="chart-grid">
+            <div class="category-label span-3">개인요인</div>
+            <div class="factor-label">직무 적합성</div>
+            <div class="bar-wrapper">
+                <div class="bar personal" style="--score: 3.41;"></div>
+                <span class="bar-value">3.41</span>
+            </div>
+            
+            <div class="factor-label">개인 가치체계</div>
+            <div class="bar-wrapper">
+                <div class="bar personal" style="--score: 3.82;"></div>
+                <span class="bar-value">3.82</span>
+            </div>
+
+            <div class="factor-label">직무 역량</div>
+            <div class="bar-wrapper">
+                <div class="bar personal" style="--score: 3.62;"></div>
+                <span class="bar-value">3.62</span>
+            </div>
+
+            <div class="category-label span-3">관계요인</div>
+            <div class="factor-label">관계 적합성</div>
+            <div class="bar-wrapper">
+                <div class="bar relations" style="--score: 3.39;"></div>
+                <span class="bar-value">3.39</span>
+            </div>
+
+            <div class="factor-label">동료 관계 품질</div>
+            <div class="bar-wrapper">
+                <div class="bar relations" style="--score: 3.55;"></div>
+                <span class="bar-value">3.55</span>
+            </div>
+
+            <div class="factor-label">리더 관계 품질</div>
+            <div class="bar-wrapper">
+                <div class="bar relations" style="--score: 3.23;"></div>
+                <span class="bar-value">3.23</span>
+            </div>
+
+            <div class="category-label span-3">조직요인</div>
+            <div class="factor-label">조직 적합성_급여/복지</div>
+            <div class="bar-wrapper">
+                <div class="bar organization" style="--score: 2.87;"></div>
+                <span class="bar-value">2.87</span>
+            </div>
+
+            <div class="factor-label">조직 적합성_비전/가치</div>
+            <div class="bar-wrapper">
+                <div class="bar organization" style="--score: 2.96;"></div>
+                <span class="bar-value">2.96</span>
+            </div>
+
+            <div class="factor-label">조직 적합성_업무/소통방식</div>
+            <div class="bar-wrapper">
+                <div class="bar organization" style="--score: 3.13;"></div>
+                <span class="bar-value">3.13</span>
+            </div>
+
+            <div class="category-label span-4">결과요인</div>
+            <div class="factor-label">조직몰입</div>
+            <div class="bar-wrapper">
+                <div class="bar outcome" style="--score: 3.33;"></div>
+                <span class="bar-value">3.33</span>
+            </div>
+
+            <div class="factor-label">조직시민행동</div>
+            <div class="bar-wrapper">
+                <div class="bar outcome" style="--score: 3.56;"></div>
+                <span class="bar-value">3.56</span>
+            </div>
+
+            <div class="factor-label">직무만족</div>
+            <div class="bar-wrapper">
+                <div class="bar outcome" style="--score: 3.33;"></div>
+                <span class="bar-value">3.33</span>
+            </div>
+
+            <div class="factor-label">잔류의지(이직의도 역척도)</div>
+            <div class="bar-wrapper">
+                <div class="bar outcome" style="--score: 3.11;"></div>
+                <span class="bar-value">3.11</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
