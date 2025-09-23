@@ -1,0 +1,78 @@
+import plotly.graph_objects as go
+import pandas as pd
+
+# 1. 데이터 입력
+data = {
+    'Category': [
+        '개인요인', '개인요인', '개인요인',
+        '관계요인', '관계요인', '관계요인',
+        '조직요인', '조직요인', '조직요인',
+        '결과요인', '결과요인', '결과요인', '결과요인'
+    ],
+    'Factor': [
+        '직무 적합성', '개인 가치체계', '직무 역량',
+        '관계 적합성', '동료 관계 품질', '리더 관계 품질',
+        '조직 적합성_급여/복지', '조직 적합성_비전/가치', '조직 적합성_업무/소통방식',
+        '조직몰입', '조직시민행동', '직무만족', '잔류의지(이직의도 역척도)'
+    ],
+    'Score': [
+        3.41, 3.82, 3.62,
+        3.39, 3.55, 3.23,
+        2.87, 2.96, 3.13,
+        3.33, 3.56, 3.33, 3.11
+    ]
+}
+df = pd.DataFrame(data)
+
+# 2. 색상 및 카테고리 설정
+colors = {
+    '개인요인': '#003f5c',
+    '관계요인': '#7a5195',
+    '조직요인': '#ef5675',
+    '결과요인': '#ffa600'
+}
+df['Color'] = df['Category'].map(colors)
+
+# 3. 차트 생성
+fig = go.Figure()
+
+# 막대그래프 추가
+fig.add_trace(go.Bar(
+    y=df['Factor'],
+    x=df['Score'],
+    orientation='h',
+    marker_color=df['Color'],
+    text=df['Score'],
+    textposition='outside',
+    textfont=dict(size=14)
+))
+
+# 4. 레이아웃 디자인
+fig.update_layout(
+    title=dict(
+        text='<b>[그림1] 직장적합도(K-FIT) 분석 요인 평가결과</b><br><span style="font-size:14px; color:#666;">(Base: 전국의 만 20~59세 직장인 2,073명, 단위: 점, 5점 만점)</span>',
+        x=0.5,
+        font=dict(size=20)
+    ),
+    yaxis=dict(
+        autorange="reversed", # 데이터를 위에서 아래로 정렬
+        tickfont=dict(size=14)
+    ),
+    xaxis=dict(
+        range=[0, 5],
+        title='5점 만점',
+        titlefont=dict(size=12),
+        tickfont=dict(size=12)
+    ),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    margin=dict(l=200, r=50, t=100, b=50),
+    showlegend=False,
+    width=800,
+    height=700
+)
+
+# 5. HTML 파일로 저장
+fig.write_html("K-FIT_chart.html")
+
+print("차트가 'K-FIT_chart.html' 파일로 성공적으로 생성되었습니다.")
