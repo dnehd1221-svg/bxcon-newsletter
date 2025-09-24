@@ -10,19 +10,15 @@
             font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #fff;
         }
-
         .report-order-card {
             background-color: #f2f7ff;
             border: 1px solid #c2d9ff;
             border-radius: 8px;
             padding: 25px 30px;
-            /* ▼▼▼ [수정] 최대 너비를 조금 늘렸습니다 ▼▼▼ */
-            max-width: 800px; 
+            max-width: 800px;
             margin: 0 auto;
         }
-
         .report-order-card h3 {
             font-weight: 700;
             text-align: center;
@@ -31,24 +27,20 @@
             font-size: 1.2em;
             color: #333;
         }
-
         .report-order-card ul {
             list-style: none;
             padding-left: 0;
             margin: 0;
         }
-
         .report-order-card li {
             margin-bottom: 12px;
             font-size: 1.05em;
             color: #444;
             line-height: 1.6;
         }
-
         .report-order-card li.current strong {
             color: #0056b3;
         }
-
         .report-order-card .note {
             margin-top: 25px;
             margin-bottom: 0;
@@ -56,23 +48,19 @@
             text-align: left;
             color: #555;
         }
-
         .report-order-card .note .asterisk {
             color: #ff0000;
         }
-
-        /* ▼▼▼ [추가] 데스크톱 화면을 위한 2단 레이아웃 ▼▼▼ */
         @media (min-width: 768px) {
             .report-order-card ul {
                 display: grid;
-                grid-template-columns: 1fr 1fr; /* 2개의 동일한 너비의 열 생성 */
-                gap: 10px 30px; /* 행과 열 사이의 간격 */
+                grid-template-columns: 1fr 1fr;
+                gap: 10px 30px;
             }
         }
     </style>
 </head>
 <body>
-
     <div class="report-order-card">
         <h3>&lt;리포트 순서&gt;</h3>
         <ul>
@@ -88,5 +76,18 @@
         <p class="note"><span class="asterisk">*</span>리포트 순서는 내부 상황에 따라 변동될 수 있음</p>
     </div>
 
+    <script>
+        const ro = new ResizeObserver(entries => {
+          window.requestAnimationFrame(() => {
+            const contentHeight = document.body.scrollHeight;
+            parent.postMessage({
+              type: 'resize-iframe',
+              height: contentHeight,
+              iframeId: 'reportOrderIframe' // 이 iframe의 고유 ID
+            }, '*');
+          });
+        });
+        ro.observe(document.body);
+    </script>
 </body>
 </html>
