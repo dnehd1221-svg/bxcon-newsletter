@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리포트 순서</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        body {
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        /* 전체를 감싸는 카드 스타일 */
+        .report-order-card {
+            background-color: #f2f7ff;
+            border: 1px solid #c2d9ff;
+            border-radius: 8px;
+            /* ▼▼▼ [수정] 내부 여백(padding)을 줄였습니다 ▼▼▼ */
+            padding: 20px 25px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* 제목 스타일 (<리포트 순서>) */
+        .report-order-card h3 {
+            font-weight: 700;
+            text-align: center;
+            margin-top: 0;
+            /* ▼▼▼ [수정] 제목 아래 여백을 줄였습니다 ▼▼▼ */
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* 목록 스타일 */
+        .report-order-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .report-order-card li {
+            margin-bottom: 12px;
+            font-size: 1.05em;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .report-order-card li.current strong {
+            color: #0056b3;
+        }
+
+        /* 하단 안내 문구 스타일 */
+        .report-order-card .note {
+            /* ▼▼▼ [수정] 상단 여백을 줄였습니다 ▼▼▼ */
+            margin-top: 20px;
+            margin-bottom: 0;
+            font-size: 0.9em;
+            text-align: left;
+            color: #555;
+        }
+
+        .report-order-card .note .asterisk {
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="report-order-card">
+        <h3>&lt;리포트 순서&gt;</h3>
+        <ul>
+            <li class="current"><strong>① 능력주의의 역설, '에이스'는 떠날 준비를 한다</strong></li>
+            <li>② 직무적합성이 바꾼 두 직장인 이야기</li>
+            <li>③ 회사 비전·가치에 공감 못하는 직원</li>
+            <li>④ 좋은 동료는 있지만, 회사는 떠난다</li>
+            <li>⑤ '관계'가 성과를 바꾼다</li>
+            <li>⑥ 직장인이 AI를 맞이하는 두 가지 시선</li>
+            <li>⑦ 주 4.5일제, 워라밸의 해법일까?</li>
+            <li>⑧ 조용한 이탈, 기업은 무엇을 놓치고 있나?</li>
+        </ul>
+        <p class="note"><span class="asterisk">*</span>리포트 순서는 내부 상황에 따라 변동될 수 있음</p>
+    </div>
+
+</body>
+</html>
