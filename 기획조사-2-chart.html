@@ -1,0 +1,243 @@
+<meta charset="utf-8">
+<style>
+  :root{
+    --red:#c62828;
+    --blue:#1f3a63;
+    --mid:#3b3b3b;
+    --line:#e5e7eb;
+    --muted:#6b7280;
+  }
+
+  .kfit-card{
+    max-width: 680px;
+    margin: 24px auto;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.04);
+    overflow:hidden;
+    background:#fff;
+  }
+  .kfit-caption{
+    text-align:center;
+    font-weight:700;
+    font-size:15px;
+    padding:14px 12px 6px;
+  }
+
+  table.kfit{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;
+  }
+
+  /* 헤더 */
+  .kfit thead th{
+    color:#fff;
+    font-size:15px;
+    font-weight:800;
+    padding:12px 10px;
+    text-align:center;
+  }
+  .kfit thead th.left{ background:var(--red);}
+  .kfit thead th.mid{
+    background:#f7f7f7; color:#333;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+  }
+  .kfit thead th.right{ background:var(--blue); border-left:1px solid var(--line); }
+
+  /* 본문 셀 */
+  .kfit tbody td{
+    border-bottom:1px solid var(--line);
+    font-size:16px;
+    text-align:center;
+    padding:0;
+  }
+  .kfit tbody tr:last-child td{ border-bottom:0; }
+
+  /* VS 컬럼: 헤더 경계에서 아래로 구분선 유지 */
+  .kfit tbody td.mid{
+    background:#f7f7f7;
+    font-weight:700; color:#333;
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+  }
+
+  /* 셀 내부(좌/우) 점수·텍스트 구분 */
+  .split-col{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 10px;
+  }
+  .score{
+    flex:0 0 72px;
+    font-weight:600;
+    color:#444;
+    text-align:center;
+    padding:8px 0;
+    border-right:1px solid var(--line); /* 기본: 점수 오른쪽에 세로선 */
+    white-space:nowrap;
+  }
+  .val{
+    flex:1;
+    padding:8px 10px;
+    font-weight:700;
+    text-align:left;
+    white-space:nowrap;         /* 1줄 유지 */
+    word-break:keep-all;        /* 한국어 어절 단위 */
+  }
+  .left .val{ color:var(--red); text-align: right; }
+  .right .val{ color:#1d4ed8; }
+
+  /* 오른쪽 칼럼: 텍스트(왼) · 점수(오) */
+  .right .split-col{ flex-direction:row; }
+  .right .val{ order:1; padding-right:10px; }
+  .right .score{
+    order:2;
+    border-right:none;
+    border-left:1px solid var(--line);
+  }
+
+  /* 주석(가운데 정렬) */
+  .kfit-note{
+    font-size:12px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    padding:12px;
+    text-align:center;
+    background:#fff;
+  }
+
+  /* 모바일 대응 */
+  @media (max-width:560px){
+    /* VS 칼럼이 너무 넓지 않게 */
+    .kfit thead th.mid{ font-size:14px; padding:10px 8px; }
+    .split-col{ padding:8px 8px; flex-direction:column; align-items:stretch; gap:6px; }
+    .score{
+      width:100%;
+      border-right:none;
+      border-left:none;
+      border-bottom:1px solid var(--line);
+      padding:6px 0;
+    }
+    .val{ padding:2px 0 0; }
+    .right .val{ order:1; }
+    .right .score{
+      order:2;
+      border-left:none;
+      border-top:1px solid var(--line);
+      border-bottom:none;
+    }
+  }
+</style>
+
+<figure class="kfit-card" role="group" aria-labelledby="kfit-cap">
+  <figcaption id="kfit-cap" class="kfit-caption">[표1] 직무적합성 인구통계학적 차이 비교</figcaption>
+
+  <!-- 고정 폭 비율: 좌 44% / VS 25% / 우 44% -->
+  <table class="kfit" role="table">
+    <colgroup>
+      <col style="width:37.5%;">
+      <col style="width:25%;">  <!-- VS 폭 축소 -->
+      <col style="width:37.5%;">
+    </colgroup>
+
+    <thead>
+      <tr>
+        <th class="left" scope="col">직무적합성 높음</th>
+        <th class="mid"  scope="col">VS.</th>
+        <th class="right" scope="col">직무적합성 낮음</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td class="left">
+          <div class="split-col">
+            <div class="score">(3.59)</div>
+            <div class="val">50대</div>
+          </div>
+        </td>
+        <td class="mid">연령</td>
+        <td class="right">
+          <div class="split-col">
+            <div class="val">30대</div>
+            <div class="score">(3.30)</div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="left">
+          <div class="split-col">
+            <div class="score">(3.57)</div>
+            <div class="val">20년 이상</div>
+          </div>
+        </td>
+        <td class="mid">재직기간</td>
+        <td class="right">
+          <div class="split-col">
+            <div class="val">6개월~2년</div>
+            <div class="score">(3.32)</div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="left">
+          <div class="split-col">
+            <div class="score">(3.66)</div>
+            <div class="val">기혼 · 자녀 3명 이상</div>
+          </div>
+        </td>
+        <td class="mid">결혼/자녀유무</td>
+        <td class="right">
+          <div class="split-col">
+            <div class="val">미혼</div>
+            <div class="score">(3.28)</div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="left">
+          <div class="split-col">
+            <div class="score">(3.67)</div>
+            <div class="val">전문서비스직</div>
+          </div>
+        </td>
+        <td class="mid">직무</td>
+        <td class="right">
+          <div class="split-col">
+            <div class="val">서비스/고객응대</div>
+            <div class="score">(3.25)</div>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="left">
+          <div class="split-col">
+            <div class="score">(3.65)</div>
+            <div class="val">대학원 이상</div>
+          </div>
+        </td>
+        <td class="mid">학력</td>
+        <td class="right">
+          <div class="split-col">
+            <div class="val">고등학교 졸업</div>
+            <div class="score">(3.30)</div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="kfit-note">
+    ※ 회사규모, 회사업종, 회사유형(민간/공공)에는 직무적합성에서 유의미한 차이가 없음
+  </div>
+</figure>
